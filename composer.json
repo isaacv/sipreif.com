@@ -1,0 +1,11 @@
+{
+    "require": {
+        "silex/silex": "1.*",
+        "bitolaco/silex-eloquent": "*"
+    },
+    "autoload": {
+   "psr-0": {
+        "App\\": "src"
+    }
+}
+}

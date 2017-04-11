@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>SIPRE-IF | Sistema de Prevención y Detección de Incendios Forestales</title>
+
+  <!-- Bootstrap -->
+  <link href="gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="gentelella-master/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <!-- iCheck -->
+  <link href="gentelella-master/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+  <!-- bootstrap-progressbar -->
+  <link href="gentelella-master/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+  <!-- Custom Theme Style -->
+  <link href="gentelella-master/build/css/custom.min.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
+  <style type="text/css" media="screen">
+    #map_wrapper {
+      height: 400px;
+    }
+
+    #map_canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+  <script>
+
+
+  
+  var url = 'http://localhost/sensors';
+  //var url = 'http://sipreif.com/sensors';
+  //////////////////////////////////////////////////////
+  // Script para mostrar los sensores en el mapa
+  //////////////////////////////////////////////////////
+  $(function() {
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    // Asynchronously Load the map API 
+    var script = document.createElement('script');
+    script.src = "//maps.googleapis.com/maps/api/js?callback=initializem&key=AIzaSyDE_Z36iJ90o8hjDjfoDPxQh5JPY28ugro";
+    document.body.appendChild(script);
+  });
+
+  function initializem() {
+    var map;
+    var bounds = new google.maps.LatLngBounds();
+    var mapOptions = {
+      mapTypeId: 'roadmap',
+      zoom: 15,
+      center: {lat: 19.175792, lng: -71.0521372}
+    };
+
+    // Display a map on the page
+    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    map.setTilt(45);
+
+    var pinColor = "FE7569";
+    var pinImage = new google.maps.MarkerImage(
+      "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0,0),
+      new google.maps.Point(10, 34));
+
+    var markers = [];
+    var infoWindowContent = [];
+
+    markers = [];
+
+    $.ajax({
+      url: url,
+      method: 'GET',
+      dataType: 'json',
+      async: false,
+      success: function (data) {      
+        SENSOR_A = new google.maps.Marker({
+         position: {lat: data.sensorA.lat, lng: data.sensorA.lng},
+         sName: "Sensor 111",
+         map: map,
+         icon: pinImage,
+        });
+        SENSOR_B = new google.maps.Marker({
+         position: {lat: data.sensorB.lat, lng: data.sensorB.lng},
+         sName: "Sensor 211",
+         map: map,
+         icon: pinImage,
+        });
+        SENSOR_C = new google.maps.Marker({
+         position: {lat: data.sensorC.lat, lng: data.sensorC.lng},
+         sName: "Sensor 311",
+         map: map,
+         icon: pinImage,
+        });
+//console.log(data)
+
+var position = new google.maps.LatLng(data.sensorA.lat, data.sensorC.lng);
+bounds.extend(position);
+map.fitBounds(bounds);
+
+}
+});
+
+    setInterval(function(){
+
+     $.ajax({
+      url: url,
+      method: 'GET',
+      dataType: 'json',
+      async: false,
+      success: function (data) {  
+
+        // Sensors
+        if(data.sensorA.sensorOn == 0){
+          SENSOR_A.setIcon("http://maps.google.com/mapfiles/ms/icons/caution.png");
+        } else {
+          if(data.sensorA.status == 1) {
+            SENSOR_A.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");            
+          } else {
+            SENSOR_A.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+          }
+        }
+        
+        if(data.sensorB.sensorOn == 0){
+          SENSOR_B.setIcon("http://maps.google.com/mapfiles/ms/icons/caution.png");
+        } else {
+          if(data.sensorB.status == 1) {
+            SENSOR_B.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");            
+          } else {
+            SENSOR_B.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+          }
+        }
+
+        if(data.sensorC.sensorOn == 0){
+          SENSOR_C.setIcon("http://maps.google.com/mapfiles/ms/icons/caution.png");
+        } else {
+          if(data.sensorC.status == 1) {
+            SENSOR_C.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");            
+          } else {
+            SENSOR_C.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+          }
+        }
+
+      }
+    });
+
+   }, 3000);
+
+    // PAnic alert
+      setInterval(function(){
+
+     $.ajax({
+      url: url,
+      method: 'GET',
+      dataType: 'json',
+      async: false,
+      success: function (data) {  
+        console.log(data)    
+        if (data.sensorA.panic == 1) {
+          toastr.warning("sensor A is in panic at: " + data.sensorA.lat + ", " + data.sensorA.lng  )
+          SENSOR_A.setIcon("http://maps.google.com/mapfiles/ms/icons/caution.png");
+        }
+
+        if (data.sensorB.panic == 1) {
+          toastr.info("sensor B is in panic at: " + data.sensorB.lat + ", " + data.sensorB.lng  )
+          SENSOR_B.setIcon("http://maps.google.com/mapfiles/ms/icons/caution.png");
+        }
+
+        if (data.sensorC.panic == 1) {
+           toastr.info("sensor C is in panic at: " + data.sensorC.lat + ", " + data.sensorC.lng  )
+           SENSOR_C.setIcon("http://maps.google.com/mapfiles/ms/icons/caution.png");
+        }
+
+
+      }
+    });
+
+   }, 3000);
+
+
+  }
+
+</script>
+
+</head>
+
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+      <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="index1.html" class="site_title"><i class="fa fa-paw"></i> <span>SIPRE-IF</span></a>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <!-- menu profile quick info -->
+          <div class="profile">
+            <div class="profile_pic">
+              <img src="gentelella-master/production/images/img.jpg" alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+              <span>Bienvenido,</span>
+              <h2>Isaac Vilchez</h2>
+            </div>
+          </div>
+          <!-- /menu profile quick info -->
+
+          <br />
+
+          <!-- sidebar menu -->
+          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+              <h3>ISAACV</h3>
+              <ul class="nav side-menu">
+                <li><a href="index.html"><i class="fa fa-home"></i> Inicio </a>
+                </li>
+
+                <li><a href="tabla.html"><i class="fa fa-table"></i> Tabla de Sensores </a>
+                </li>
+
+                <li><a href="graficas.html"><i class="fa fa-bar-chart-o"></i> Graficas </a>
+                </li>
+
+                <li><a href="contacto.html"><i class="fa fa-edit"></i> Contacto </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- /sidebar menu -->
+
+          <!-- /menu footer buttons -->
+          <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="Settings">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+              <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Lock">
+              <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Logout">
+              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+          </div>
+          <!-- /menu footer buttons -->
+        </div>
+      </div>
+
+      <!-- top navigation -->
+      <div class="top_nav">
+        <div class="nav_menu">
+          <nav>
+            <div class="nav toggle">
+              <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+            </div>
+          </nav>
+        </div>
+      </div>
+      <!-- /top navigation -->
+
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <!-- top tiles -->
+        <div class="row tile_count">
+          <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Sensor 111</span>
+            <div class="count" id="SA">0.00</div>
+            <span class="count_bottom green" id="SAP">0.00</span><span class="count_bottom green" id="SAP">% Prob. Fuego</span>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+            <span class="count_top"><i class="fa fa-clock-o"></i> Sensor 211</span>
+            <div class="count" id="SB">0.00</div>
+            <span class="count_bottom green" id="SBP">0.00</span><span class="count_bottom green" id="SAP">% Prob. Fuego</span>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Sensor 311</span>
+            <div class="count green" id="SC">0.00</div>
+            <span class="count_bottom green" id="SCP">0.00</span><span class="count_bottom green" id="SAP">% Prob. Fuego</span>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Promedio</span>
+            <div class="count" id="PROM">0.00</div>
+            <span class="count_bottom green" id="SAP">Promedio de Temperatura</span>
+
+          </div>
+        </div>
+        <!-- /top tiles -->
+
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+              <!-- MAPA -->
+              <h4>Mapa <small>Sensores</small></h4>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div id="map_wrapper">
+                <div id="map_canvas" class="mapping"></div>
+              </div>
+              <!-- MAPA end -->
+            </div>
+          </div>
+        </div>
+        <br />
+      </div>
+      <!-- /page content -->
+
+      <!-- footer content -->
+      <footer>
+        <div class="pull-right">
+          SIPRE-IF - Tema desarrollado por <a href="https://isaacvilchez.com">Isaac Vilchez</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      <!-- /footer content -->
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="gentelella-master/vendors/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="gentelella-master/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- FastClick -->
+  <script src="gentelella-master/vendors/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="gentelella-master/vendors/nprogress/nprogress.js"></script>
+  <!-- Chart.js -->
+  <script src="gentelella-master/vendors/Chart.js/dist/Chart.min.js"></script>
+  <!-- gauge.js -->
+  <script src="gentelella-master/vendors/gauge.js/dist/gauge.min.js"></script>
+  <!-- bootstrap-progressbar -->
+  <script src="gentelella-master/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+  <!-- iCheck -->
+  <script src="gentelella-master/vendors/iCheck/icheck.min.js"></script>
+  <!-- Skycons -->
+  <script src="gentelella-master/vendors/skycons/skycons.js"></script>
+  <!-- Flot -->
+  <script src="gentelella-master/vendors/Flot/jquery.flot.js"></script>
+  <script src="gentelella-master/vendors/Flot/jquery.flot.pie.js"></script>
+  <script src="gentelella-master/vendors/Flot/jquery.flot.time.js"></script>
+  <script src="gentelella-master/vendors/Flot/jquery.flot.stack.js"></script>
+  <script src="gentelella-master/vendors/Flot/jquery.flot.resize.js"></script>
+  <!-- Custom Theme Scripts -->
+  <script src="gentelella-master/build/js/custom.min.js"></script>
+  <script src="//www.chartjs.org/assets/Chart.min.js"></script>
+  <!-- Flot -->
+  
+  <script >
+    //////////////////////////////////////////////////////
+    // Script para actualizar los sensores en tiempo real
+    //////////////////////////////////////////////////////
+
+    setInterval(function(){
+      $.ajax({
+        'url': url,
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        async: true,
+        success: function (data) {
+          $("#SA").text(data.sensorA.temp);
+          $("#SAP").text(data.sensorA.prob);
+          $("#SB").text(data.sensorB.temp);
+          $("#SBP").text(data.sensorB.prob);
+          $("#SC").text(data.sensorC.temp);
+          $("#SCP").text(data.sensorC.prob);
+          $("#PROM").text(data.prob);
+        }
+      });
+    }, 1000);
+  </script>
+</body>
+</html>

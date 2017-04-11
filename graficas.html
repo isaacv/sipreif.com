@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title> SIPRE-IF | Graficas </title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <link href="gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="gentelella-master/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Custom Theme Style -->
+  <link href="gentelella-master/build/css/custom.min.css" rel="stylesheet">
+
+    <style type="text/css" media="screen">
+      #map_wrapper {
+        height: 400px;
+      }
+
+      #map_canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+
+</head>
+
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+      <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="index1.html" class="site_title"><i class="fa fa-paw"></i> <span>SIPRE-IF</span></a>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <!-- menu profile quick info -->
+          <div class="profile">
+            <div class="profile_pic">
+              <img src="gentelella-master/production/images/img.jpg" alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+              <span>Bienvenido,</span>
+              <h2>Isaac Vilchez</h2>
+            </div>
+          </div>
+          <!-- /menu profile quick info -->
+
+          <br />
+
+          <!-- sidebar menu -->
+          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+              <h3>ISAACV</h3>
+              <ul class="nav side-menu">
+                <li><a href="index.html"><i class="fa fa-home"></i> Inicio </a>
+                </li>
+
+                <li><a href="tabla.html"><i class="fa fa-table"></i> Tabla de Sensores </a>
+                </li>
+
+                <li><a href="graficas.html"><i class="fa fa-bar-chart-o"></i> Graficas </a>
+                </li>
+
+                <li><a href="contacto.html"><i class="fa fa-edit"></i> Contacto </a>
+                </li>
+
+              </ul>
+            </div>
+
+          </div>
+          <!-- /sidebar menu -->
+
+          <!-- /menu footer buttons -->
+          <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="Settings">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+              <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Lock">
+              <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Logout">
+              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+          </div>
+          <!-- /menu footer buttons -->
+        </div>
+      </div>
+
+      <!-- top navigation -->
+      <div class="top_nav">
+        <div class="nav_menu">
+          <nav>
+            <div class="nav toggle">
+              <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+            </div>
+
+          </nav>
+        </div>
+      </div>
+      <!-- /top navigation -->
+
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+            <div class="title_left">
+              <h3>Gráficas</h3>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+              <div class="row x_title">
+                <div class="col-md-6">
+                  <h3>Comportamiento de las Variables <small>Temperatura y Humedad</small></h3>
+                </div>
+              </div>
+
+              <!-- Diagrama de Linea S1 -->
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <h4>Sensores</h4>
+                <div class="clearfix"></div>
+                <div id="placeholder33" style="height: 260px; display: none" class="demo-placeholder"></div>
+                <div style="width: 100%;">
+                  <canvas id="updating-chart-s1" style="width: 100%; height:300px;"></canvas>
+                </div>
+              </div>
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <h4>Humedad</h4>
+                <div class="clearfix"></div>
+                <div id="placeholder33" style="height: 260px; display: none" class="demo-placeholder"></div>
+                <div style="width: 100%;">
+                  <canvas id="updating-chart-s2" style="width: 100%; height:300px;"></canvas>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /page content -->
+
+      <!-- footer content -->
+      <footer>
+        <div class="pull-right">
+          SIPRE-IF - Tema desarrollado por <a href="https://isaacvilchez.com">Isaac Vilchez</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      <!-- /footer content -->
+    </div>
+  </div>
+  <!-- jQuery -->
+  <script src="gentelella-master/vendors/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="gentelella-master/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- FastClick -->
+  <script src="gentelella-master/vendors/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="gentelella-master/vendors/nprogress/nprogress.js"></script>
+  <!-- Chart.js --> 
+  <script src="gentelella-master/vendors/Chart.js/dist/Chart.min.js"></script>
+
+  <!-- Custom Theme Scripts -->
+  <script src="gentelella-master/build/js/custom.min.js"></script>
+
+  <!-- LO NUEVO -->
+  <!-- Custom Theme Scripts -->
+  <script src="gentelella-master/build/js/custom.min.js"></script>
+  <script src="//www.chartjs.org/assets/Chart.min.js"></script>
+
+  <script>
+  ///////////////////////////////////////////////
+  // Script para el diagrama de lineas en Inicio
+  //////////////////////////////////////////////
+
+  var canvas = document.getElementById('updating-chart-s1');
+  var ctx = canvas.getContext('2d');
+  var startingData = {
+    labels: [0, 0, 0, 0, 0, 0, 0],
+    datasets: [{
+      label: "Sensor 111 Temp",
+      fillColor: "rgba(220,220,45,0.2)",
+      strokeColor: "rgba(220,45,45,1)",
+      pointColor: "rgba(220,220,220,1)",
+      pointStrokeColor: "#fff",
+      data: [0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      label: "Sensor 211 Temp",
+      fillColor: "rgba(220,220,45,0.2)",
+      strokeColor: "rgba(220,45,45,1)",
+      pointColor: "rgba(151,187,205,1)",
+      pointStrokeColor: "#fff",
+      data: [0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      label: "Sensor 311 Temp",
+      fillColor: "rgba(220,220,45,0.2)",
+      strokeColor: "rgba(220,45,45,1)",
+      pointColor: "rgba(151,187,205,1)",
+      pointStrokeColor: "#fff",
+      data: [0, 0, 0, 0, 0, 0, 0]
+    }
+    ]
+  },
+
+  latestLabel = startingData.labels[6];
+
+  // Reduce the animation steps for demo clarity.
+  var myLiveChartA = new Chart(ctx).Line(startingData, {
+    responsive: true,
+    animation: true,
+    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+  });
+
+  var canvas = document.getElementById('updating-chart-s2');
+  var ctx = canvas.getContext('2d');
+  var startingDataB = {
+    labels: [0, 0, 0, 0, 0, 0, 0],
+    datasets: [{
+      label: "Sensor 111 Temp",
+      fillColor: "rgba(115,135,156,0.2)",
+      strokeColor: "rgba(220,220,220,1)",
+      pointColor: "rgba(220,220,220,1)",
+      pointStrokeColor: "#fff",
+      data: [0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      label: "Sensor 211 Temp",
+      fillColor: "rgba(115,135,156,0.2)",
+      strokeColor: "rgba(220,220,220,1)",
+      pointColor: "rgba(151,187,205,1)",
+      pointStrokeColor: "#fff",
+      data: [0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      label: "Sensor 311 Temp",
+      fillColor: "rgba(115,135,156,0.2)",
+      strokeColor: "rgba(220,220,220,1)",
+      pointColor: "rgba(151,187,205,1)",
+      pointStrokeColor: "#fff",
+      data: [0, 0, 0, 0, 0, 0, 0]
+    }
+    ]
+  },
+
+  latestLabel = startingDataB.labels[6];
+  // Reduce the animation steps for demo clarity.
+  var myLiveChartB = new Chart(ctx).Line(startingDataB, {
+    responsive: true,
+    animation: true,
+    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+  });
+
+  setInterval(function(){
+
+    $.ajax({
+      'url': 'http://sipreif.com/sensors',
+      type: 'GET',
+      dataType: 'json',
+      cache: false,
+      async: true,
+      success: function (data) {
+        // Add two random numbers for each dataset
+        myLiveChartA.addData([data.sensorA.temp, data.sensorB.temp, data.sensorC.temp], data.sensorB.date);
+            
+        // Remove the first point so we dont just add values forever
+        myLiveChartA.removeData();
+
+        // Add two random numbers for each dataset
+        myLiveChartB.addData([data.sensorA.hum, data.sensorB.hum, data.sensorC.hum], data.sensorB.date);
+            
+        // Remove the first point so we dont just add values forever
+        myLiveChartB.removeData();
+        }
+      });
+
+  }, 10000);
+</script>
+
+  </body>
+</html>
