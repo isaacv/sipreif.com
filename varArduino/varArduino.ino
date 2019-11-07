@@ -18,7 +18,7 @@ float lon;    // Longitud de la mota
 
 void setup(){
   Serial.begin(9600); //turn on serial monitor
-  ID = s211;
+  ID = 311;
   lat = 19.17;
   lon = -71.05;
   
@@ -106,15 +106,12 @@ int tempAlert (int ts, int tst){
   int flag;
   // HIGH TEMP ALERT
   if (ts > tst){
-    Serial.println(" ");
     Serial.println("======================================");
     Serial.println("ALERT: HIGH TEMP LEVELS");
     Serial.println("======================================");
-    Serial.println(" ");
     flag=1;
   }
   else {
-    Serial.println(" ");
     flag=0;
   }
   
@@ -127,15 +124,13 @@ int smokeAlert (int ss, int sst){
   int flag;
   // SMOKE ALERT
   if (ss > sst){
-    Serial.println(" ");
     Serial.println("======================================");
     Serial.println("ALERT: HIGH SMOKE LEVELS!!!!!");
     Serial.println("======================================");
-    Serial.println(" ");
     flag = 1;
   }
   else {
-    Serial.println(" ");
+    //Serial.println(" ");
     flag = 0;
   }
   

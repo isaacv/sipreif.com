@@ -119,7 +119,13 @@ while True: # While loop that loops forever
     while (arduinoData.inWaiting()==0):			#Wait here until there is data
         pass #do nothing
     arduinoString = arduinoData.readline() 		#read the line of text from the serial port
-    dataArray = 	arduinoString.split(',')    	#Split it into an array called dataArray
+    # data_raw = arduinoData.readline().decode().strip()
+    # if data_raw:
+    #     arduinoString = data_raw
+    dataArray = 	arduinoString.split(',')    #Split it into an array called dataArray
+    dataArrayTemp = dataArray
+
+    print dataArray
     # ident = 		( dataArray[0])			
     # temp = 			float( dataArray[1])    
     # H =    			float( dataArray[2])    #Convert second element to floating number and put in P
@@ -130,7 +136,9 @@ while True: # While loop that loops forever
     # smokeFlag=		( dataArray[7])			#Flag de Sensor de humo	
     # cID = ident
     # print ident
-    dataArrayTemp = dataArray
+    
+
+    # populateVar(dataArray)
     
     if dataArrayTemp[0]=='111':
     	populateVar(dataArrayTemp)
@@ -168,8 +176,6 @@ while True: # While loop that loops forever
     	if (temp > 90):
     		subject="ALERTA SENSOR 311" 
     		email(subject)
-
-
 
     tempF.append(temp)	#Build our tempF array by appending temp readings
     humidity.append(H)	#Building our humidity array by appending P readings
