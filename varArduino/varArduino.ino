@@ -106,9 +106,9 @@ int tempAlert (int ts, int tst){
   int flag;
   // HIGH TEMP ALERT
   if (ts > tst){
-    Serial.println("======================================");
-    Serial.println("ALERT: HIGH TEMP LEVELS");
-    Serial.println("======================================");
+//    Serial.println("======================================");
+//    Serial.println("ALERT: HIGH TEMP LEVELS");
+//    Serial.println("======================================");
     flag=1;
   }
   else {
@@ -124,9 +124,9 @@ int smokeAlert (int ss, int sst){
   int flag;
   // SMOKE ALERT
   if (ss > sst){
-    Serial.println("======================================");
-    Serial.println("ALERT: HIGH SMOKE LEVELS!!!!!");
-    Serial.println("======================================");
+//    Serial.println("======================================");
+//    Serial.println("ALERT: HIGH SMOKE LEVELS!!!!!");
+//    Serial.println("======================================");
     flag = 1;
   }
   else {
